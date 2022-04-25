@@ -126,5 +126,18 @@ def voto(request):
     
 
 def new_pelicula(request):
-    return render(request, 'app/new_pelicula.html')
+    if not request.user.is_authenticated:
+        return render(request, 'app/index.html')
+
+    if request.method == "GET":
+        form = PeliculaForm()
+        return render(request, 'app/new_pelicula.html',{'form': form})
+
+    if request.method == "POST":
+        error = False
+        form = PeliculaForm(request.POST)
+        if form.is_valid():
+            return render(request, 'app/new_pelicula.html', {'form': form})
+        else:
+            return render(request, 'app/new_pelicula.html', {'form': form})
 

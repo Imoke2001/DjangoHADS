@@ -5,6 +5,10 @@
 <h3>{{ message }}</h3>
 
 <h1>Insertar una pelicula</h1>
-        Formulario para enviar los datos de la pelicula a la vista
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Insertar Pelicula">
+</form>
 
 {% endblock %}
