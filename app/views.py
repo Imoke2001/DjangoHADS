@@ -137,7 +137,18 @@ def new_pelicula(request):
         error = False
         form = PeliculaForm(request.POST)
         if form.is_valid():
-            return render(request, 'app/new_pelicula.html', {'form': form})
+            titulo = request.POST['titulo']
+            direccion = request.POST['direccion']
+            anio = request.POST['anio']
+            genero = request.POST['genero']
+            sinopsis = request.POST['sinopsis']
+            votos = request.POST['votos']
+            pelicula, created = Pelicula.objects.get_or_create(titulo=titulo, direccion=direccion, anio=anio, 
+                                                               genero=genero, sinopsis=sinopsis, votos=votos)
+            if created:
+                return HttpResponseRedirect('../peliculas')
+            else:
+                error = True
+                return render(request, 'app/new_pelicula.html', {'form': form, 'error': error}) 
         else:
             return render(request, 'app/new_pelicula.html', {'form': form})
-
